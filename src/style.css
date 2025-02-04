@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
+
+
+:root {
+  --el-color-primary: #58aaff;
+}
+
+html {
+   padding: 0px;
+   margin: 0px;
+   font-family: "Noto Sans SC", serif;
+   font-optical-sizing: auto;
+   font-weight: 400;
+   font-style: normal;
+}
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #b2b2b2;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+* {
+  box-sizing: border-box;
+  color: #606266;
+}
+
+body{
+  padding: 0px;
+  margin: 0px;
+  /* width: 100vw;
+  height: 100vh; */
+}
