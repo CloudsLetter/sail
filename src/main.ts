@@ -59,8 +59,6 @@ echarts.use([
   CanvasRenderer
 ]);
 
-const option: ECOption = {
-};
 
 
 const routes = [
