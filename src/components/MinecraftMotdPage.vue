@@ -133,7 +133,7 @@ const getData = () => {
     data.value = jsonObj;
     successNof();
   })
-  .catch((err) => {
+  .catch((_) => {
     data.value = null;
     errorNof("服务器离线或查询失败");
   });
