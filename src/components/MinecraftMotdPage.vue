@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { Search } from '@element-plus/icons-vue'
-
+import DarkModeToggle from './DarkModeToggle.vue';
 
 interface MotdResponse {
   edition?: string;
@@ -18,8 +18,9 @@ interface MotdResponse {
   protocol?: string;
   loader?: string;
   mod_count?: number;
-  enforces_secureChat?: boolean;
-  prevents_chatReports?: boolean;
+  mod_list?:  ModLisS[];
+  enforces_secure_chat?: boolean;
+  prevents_chat_reports?: boolean;
   server_name?: string;
   server_id?: number;
   map?: string;
@@ -31,6 +32,10 @@ interface MotdResponse {
   extra?: string;
 }
 
+interface ModLisS {
+	modid?:  string;
+	version?: string;
+}
 interface DescriptionRaw {
   text?: string;
   color?: string;
@@ -232,8 +237,8 @@ const textColorBC = computed(() => {
               </div>
 
               <div class="pl" v-if="data?.nintendo_limited">
-                <div>Nintendo Switch可加入:</div>
-                <div>{{ data?.nintendo_limited }}</div>
+                <div>允许 Nintendo Switch:</div>
+                <div>{{ data?.nintendo_limited? "True" : "False" }}</div>
               </div>
 
               <div class="pl" v-if="data?.mine_craft_server_type">
@@ -265,6 +270,16 @@ const textColorBC = computed(() => {
               <div class="pl" v-if="data?.protocol">
                 <div>协议版本:</div>
                 <div>{{ data?.protocol }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.enforces_secure_chat">
+                <div>强制安全聊天:</div>
+                <div>{{ data?.enforces_secure_chat? "True" : "False" }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.prevents_chat_reports">
+                <div>禁用聊天举报:</div>
+                <div>{{ data?.prevents_chat_reports? "True" : "False"  }}</div>
               </div>
 
               <div class="pl" v-if="data?.loader">
@@ -299,6 +314,19 @@ const textColorBC = computed(() => {
         </div>
       </transition>
 
+     <transition name="el-zoom-in-center">
+        <div class="cards" v-if="data?.mod_list">
+          <div class="cardtitle">模组信息</div>
+          <div class="cardcontentpl">
+                <el-table :data="data?.mod_list" style="width: 100%">
+                <el-table-column prop="modid" label="名称"/>
+                <el-table-column prop="version" label="版本"/>
+              </el-table>
+          </div>
+        </div>
+      </transition>
+
+
         <div class="cards">
           <div class="cardtitle">接口信息</div>
           <div class="cardcontentapi">
@@ -329,6 +357,9 @@ const textColorBC = computed(() => {
               </el-table>
         </div>
   </div>
+
+<DarkModeToggle />
+  
 
   </template>
 
