@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Analysis: typeof import('./src/components/Analysis.vue')['default']
     Asy: typeof import('./src/components/asy.vue')['default']
     DarkModeToggle: typeof import('./src/components/DarkModeToggle.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']

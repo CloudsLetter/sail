@@ -15,6 +15,7 @@ document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`)
         </div>
         <div style="width: 90%; text-align: center;">可用服务:</div>
         <router-link to="/motd" style="color:var(--el-color-primary)">Minecraft MOTD</router-link>
+        <router-link to="/analysis" style="color:var(--el-color-primary)">调用统计</router-link>
         <div>博客: https://blog.cloudyi.xyz</div>
         </div>
     </div>
