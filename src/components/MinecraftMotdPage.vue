@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { Search } from '@element-plus/icons-vue'
-import { ElNotification } from 'element-plus'
 
 
 interface MotdResponse {
   edition?: string;
   mine_craft_edition?: string;
-  mine_craft_serverType?: string;
+  mine_craft_server_type?: string;
   version?: string;
   online_players: number;
   real_players?: number;
@@ -22,7 +21,7 @@ interface MotdResponse {
   enforces_secureChat?: boolean;
   prevents_chatReports?: boolean;
   server_name?: string;
-  serverId?: number;
+  server_id?: number;
   map?: string;
   game_mode?: string;
   nintendo_limited?: boolean;
@@ -96,7 +95,7 @@ const warringNof = (errMsg: string) => {
   ElNotification({
     title: '警告',
     message: errMsg,
-    type: 'error',
+    type: 'warning',
     duration: 2000
 
   });
@@ -136,11 +135,21 @@ const getData = () => {
   })
   .catch((err) => {
     data.value = null;
-    errorNof("服务器离线或查询失败\n" + err.message);
+    errorNof("服务器离线或查询失败");
   });
 }
 
+const textColor = computed(() => {
+  return (data.value?.latency ?? 0) <= 300 ? "var(--el-color-primary)" : "var(--el-color-red)";
+});
 
+const textColorP = computed(() => {
+  return data.value?.online_players !== 0 ? "var(--el-color-primary)" : "var(--el-color-red)";
+});
+
+const textColorBC = computed(() => {
+  return data.value?.online_players !== 0 ? "var(--el-bg-blue)" : "var(--el-bg-red)";
+});
 
 </script>
 
@@ -160,18 +169,20 @@ const getData = () => {
             <el-option label="Bedrock" value=1 />
             <el-option label="Java 1.5+" value=2 />
             <el-option label="Java 1.4+" value=3 />
-            <el-option label="Java beta3+" value=4 />
+            <el-option label="Java B3+" value=4 />
           </el-select>
         </template>
         <template #append>
-          <el-button :icon="Search" @click="getData()" />
+          <el-button @click="getData()">
+              <el-icon color="var(--el-color-primary)" ><Search /></el-icon>
+          </el-button>
         </template>
       </el-input>
             <transition name="el-zoom-in-center">
 
         <div class="cards" v-if="data">
           <div class="cardtitle">游戏信息</div>
-          <div class="cardcontent">
+          <div class="cardcontent" :style="{backgroundColor: textColorBC}">
               <el-image class="fav" :src="data?.favicon" alt="favicon" key="cover" loading="lazy" v-if="data?.favicon"/>
               <div class="favr">
               <div class="pl" v-if="data?.description">
@@ -179,24 +190,35 @@ const getData = () => {
                 <div>{{ data?.description }}</div>
               </div>
 
-              <div class="pl" v-if="data?.online_players">
+              <div class="pl" v-if="data?.server_name">
+                <div>名称:</div>
+                <div>{{ data?.server_name }}</div>
+              </div>
+
+              <div class="pl">
                 <div>在线玩家:</div>
-                <div>{{ data?.online_players }}</div>
+                <div :style="{color: textColorP}">{{ data?.online_players }}</div>
               </div>
 
               <div class="pl" v-if="data?.real_players">
                 <div>真实玩家:</div>
-                <div>{{ data?.real_players }}</div>
+                <div :style="{color: textColorP}">{{ data?.real_players }}</div>
               </div>
 
                 <div class="pl" v-if="data?.max_players">
                 <div>可承载玩家:</div>
                 <div>{{ data?.max_players }}</div>
+
               </div>
+                <div class="pl" v-if="data?.map">
+                <div>地图:</div>
+                <div>{{ data?.map }}</div>
+              </div>
+
 
               <div class="pl" v-if="data?.latency">
                 <div>延迟:</div>
-                <div>{{ data?.latency }}</div>
+                <div :style="{ color: textColor }">{{ data?.latency }}</div>
               </div>
 
               <div class="pl" v-if="data?.mine_craft_edition">
@@ -204,9 +226,55 @@ const getData = () => {
                 <div>{{ data?.mine_craft_edition }}</div>
               </div>
 
+              <div class="pl" v-if="data?.game_mode">
+                <div>游戏模式:</div>
+                <div>{{ data?.game_mode }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.nintendo_limited">
+                <div>Nintendo Switch可加入:</div>
+                <div>{{ data?.nintendo_limited }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.mine_craft_server_type">
+                <div>服务器类型:</div>
+                <div>{{ data?.mine_craft_server_type }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.server_id">
+                <div>服务器Id:</div>
+                <div>{{ data?.server_id }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.ipv4_port">
+                <div>内部Ipv4端口:</div>
+                <div>{{ data?.ipv4_port }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.ipv6_port">
+                <div>内部Ipv6端口:</div>
+                <div>{{ data?.ipv6_port }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.version">
+                <div>游戏版本:</div>
+                <div>{{ data?.version }}</div>
+              </div>
+
+
               <div class="pl" v-if="data?.protocol">
                 <div>协议版本:</div>
                 <div>{{ data?.protocol }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.loader">
+                <div>加载器:</div>
+                <div>{{ data?.loader }}</div>
+              </div>
+
+              <div class="pl" v-if="data?.mod_count">
+                <div>模组数量:</div>
+                <div>{{ data?.mod_count }}</div>
               </div>
 
               <div class="pl" v-if="data?.edition">
@@ -316,13 +384,17 @@ const getData = () => {
   .fav{
     width: 154px;
     height: 154px;
+    margin: auto;
   }
+
+
 
   .favr{
     padding: 10px; 
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    overflow: auto;  
   }
 
 .pl {
@@ -335,15 +407,16 @@ const getData = () => {
   }
 .pl>:nth-child(1){
   padding-right: 10px;
-white-space: nowrap;
+  white-space: nowrap;
 }
 
 .pl>:nth-child(2){
-overflow: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .pll{
-  color: #58aaff;
+  color: var(--el-color-primary);
 }
 
   .cardcontentpl {
