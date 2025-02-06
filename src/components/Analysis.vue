@@ -85,6 +85,12 @@ onMounted(async() =>{
         type: 'line',
         data: data.value?.minute_struct.map((item) => item.count),
         smooth: true,
+        areaStyle: {
+          color: '#58aaff',
+        },
+        lineStyle: {
+          color: '#58aaff',
+       },
       },
     ],
   };
@@ -92,6 +98,7 @@ onMounted(async() =>{
     tooltip: {},
     xAxis: {
       type: 'category',
+      boundaryGap: false,
       data: data.value?.hour_struct.map((item) => `${item.day} 日 ${item.hour + 8} 时`),
     },
     yAxis: {
@@ -103,6 +110,12 @@ onMounted(async() =>{
         type: 'line',
         data: data.value?.hour_struct.map((item) => item.count),
         smooth: true,
+        areaStyle: {
+          color: '#58aaff',
+        },
+        lineStyle: {
+          color: '#58aaff',
+       },
       },
     ],
     };
@@ -122,6 +135,12 @@ onMounted(async() =>{
         type: 'line',
         data: data.value?.day_struct.map((item) => item.count),
         smooth: true,
+        areaStyle: {
+          color: '#58aaff',
+        },
+        lineStyle: {
+          color: '#58aaff',
+       },
       },
     ],
     };
@@ -141,6 +160,12 @@ onMounted(async() =>{
         type: 'line',
         data: data.value?.month_struct.map((item) => item.count),
         smooth: true,
+         areaStyle: {
+          color: '#58aaff',
+        },
+        lineStyle: {
+          color: '#58aaff',
+       },
       },
     ],
     };
