@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { inject, ref, onMounted } from 'vue';
+import { inject, ref, onMounted, onUnmounted, shallowRef, nextTick } from 'vue';
 import axios from 'axios';
-
+import type { ECharts } from 'echarts';
 
 interface DayStruct {
   count: number;
@@ -34,13 +34,16 @@ interface DataStructure {
   month_struct: MonthStruct[];
 }
 
-
-const data = ref<DataStructure | null>(null);
 const echarts: any = inject('$echarts');
 
+const minuteChart = shallowRef<ECharts | null>(null);
+const hourChart = shallowRef<ECharts | null>(null);
+const dayChart = shallowRef<ECharts | null>(null);
+const monthChart = shallowRef<ECharts | null>(null);
+const data = ref<DataStructure | null>(null);
 
-onMounted(async () =>{
-    await axios.get('https://satellite.cloudyi.xyz/api/v1/call_statistics?destination=/api/v1/motd',{
+ const getData = async ()=> {
+      await axios.get('https://satellite.cloudyi.xyz/api/v1/call_statistics?destination=/api/v1/motd',{
         headers: {
             Accept: 'application/json',
         },
@@ -49,16 +52,29 @@ onMounted(async () =>{
     }).catch((err) => {
         console.log(err);
     });
-    const minuteDom = echarts.init(document.getElementById('minute') as HTMLDivElement);
-    const hourDom = echarts.init(document.getElementById('hour') as HTMLDivElement);
-    const dayDom = echarts.init(document.getElementById('day') as HTMLDivElement);
-    const monthDom = echarts.init(document.getElementById('month') as HTMLDivElement);
-    console.log(data.value?.minute_struct);
+ }
+
+const resizeCharts = () => {
+
+nextTick(() => {
+  minuteChart.value?.resize();
+  hourChart.value?.resize();
+  dayChart.value?.resize();
+  monthChart.value?.resize();
+});
+};
+
+onMounted(async() =>{  
+    await getData();
+    minuteChart.value = echarts.init(document.getElementById('minute') as HTMLDivElement);
+    hourChart.value = echarts.init(document.getElementById('hour') as HTMLDivElement);
+    dayChart.value = echarts.init(document.getElementById('day') as HTMLDivElement);
+    monthChart.value = echarts.init(document.getElementById('month') as HTMLDivElement);
      let minuteOption = {
     tooltip: {},
     xAxis: {
       type: 'category',
-      data: data.value?.minute_struct.map((item) => item.minute),
+      data: data.value?.minute_struct.map((item) => `${item.hour + 8} 时 ${item.minute} 分`),
     },
     yAxis: {
       type: 'value',
@@ -76,7 +92,7 @@ onMounted(async () =>{
     tooltip: {},
     xAxis: {
       type: 'category',
-      data: data.value?.hour_struct.map((item) => item.hour + 8),
+      data: data.value?.hour_struct.map((item) => `${item.day} 日 ${item.hour + 8} 时`),
     },
     yAxis: {
       type: 'value',
@@ -95,7 +111,7 @@ onMounted(async () =>{
     tooltip: {},
     xAxis: {
       type: 'category',
-      data: data.value?.day_struct.map((item) => item.day),
+      data:  data.value?.day_struct.map((item) => `${item.month} 月 ${item.day} 日`),
     },
     yAxis: {
       type: 'value',
@@ -114,7 +130,7 @@ onMounted(async () =>{
     tooltip: {},
     xAxis: {
       type: 'category',
-      data: data.value?.month_struct.map((item) => item.month),
+      data:  data.value?.month_struct.map((item) => `${item.year} 年 ${item.month} 月`),
     },
     yAxis: {
       type: 'value',
@@ -129,11 +145,20 @@ onMounted(async () =>{
     ],
     };
 
+  minuteChart.value?.setOption(minuteOption);
 
-    minuteDom.setOption(minuteOption);
-    hourDom.setOption(hourOption);
-    dayDom.setOption(dayOption);
-    monthDom.setOption(monthOption);
+  hourChart.value?.setOption(hourOption);
+
+  dayChart.value?.setOption(dayOption);
+
+  monthChart.value?.setOption(monthOption);
+  
+  window.addEventListener('resize', resizeCharts);
+
+})
+
+onUnmounted(()=>{
+  window.removeEventListener('resize', resizeCharts);
 })
 
 </script>
