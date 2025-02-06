@@ -10,7 +10,7 @@ document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`)
     <div class="global">
         <div class="cards">
                   <DotLottieVue style="height: 20%; width: 90%" autoplay loop src="https://lottie.host/a0d612e6-9e8a-4522-9c07-bd410973e047/kycD5lYJal.lottie" />
-        <div style="width: 90% text-align: center;">                
+        <div style="width: 90%; text-align: center;">                
                 该站点仍在建设中,过几世纪再回来看看吧...
         </div>
         <div style="width: 90%; text-align: center;">可用服务:</div>
