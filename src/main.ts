@@ -1,4 +1,5 @@
-
+import 'element-plus/theme-chalk/dark/css-vars.css';
+import './darkmode.css'
 import './style.css'
 import App from './App.vue'
 import { createApp } from 'vue'
@@ -40,8 +41,9 @@ const routes = [
     {path: '/', name: 'Sail', component:  () => import('./components/HomePage.vue'), meta:{title: 'Sail'}},
     {path:'/motd', name: 'MOTD' ,component:  () => import('./components/MinecraftMotdPage.vue'), meta:{title: 'Minecraft MOTD查询'}},
     {path: '/analysis', name: 'Echarts', component: () => import('./components/Analysis.vue'), meta:{title: '调用统计'}},
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: import('./components/HomePage.vue'), meta:{title: '404 你又回来了'} },
 
-]
+  ]
 
 const router = createRouter({
     history: createWebHistory(),

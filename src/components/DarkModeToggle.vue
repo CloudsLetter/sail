@@ -20,7 +20,7 @@ const handleToggle = () => {
 <template>
   <div class="toggle" @click="handleToggle" :class="{ flipped: isFlipped }">
     <el-icon size="30px" style="color:#fff">
-      <component :is="isDark ? Moon : Sunny" />
+      <component :is="isDark ? Sunny : Moon" />
     </el-icon>
   </div>
 </template>

@@ -1,0 +1,9 @@
+html.dark{
+    --el-br-w: #3d444d;
+    --f-c: #caced7;
+    --sh-b: 0px 16px 48px 16px rgba(0, 0, 0, .08),
+        0px 12px 32px rgba(0, 0, 0, .12),
+        0px 8px 16px -8px rgba(0, 0, 0, .16);
+    --el-bg-red: #290000;
+    --el-bg-blue: #001529;
+}

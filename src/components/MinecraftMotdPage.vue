@@ -65,6 +65,7 @@ const address = ref<string | null>(null);
 const type = ref<number | null>(null);
 const data = ref<MotdResponse | null>(null);
 
+const loading = ref(false);
 
 
 const queryNof = () => {
@@ -127,7 +128,8 @@ const getData = () => {
   } else {
     port = parseInt(addrA[1])
   }
-    queryNof();
+  loading.value = true;
+  queryNof();
   axios.get(`https://satellite.cloudyi.xyz/api/v1/motd?host=${addrA[0]}&port=${port}&type=${type.value}&raw=false&desraw=false&anonymous=true`,{
     headers: {
       "Accept": "application/json",
@@ -136,10 +138,12 @@ const getData = () => {
   .then((res) => res.data)
   .then((jsonObj)=>{
     data.value = jsonObj;
+    loading.value = false;
     successNof();
   })
   .catch((_) => {
     data.value = null;
+    loading.value = false;
     errorNof("服务器离线或查询失败");
   });
 }
@@ -183,8 +187,19 @@ const textColorBC = computed(() => {
           </el-button>
         </template>
       </el-input>
-            <transition name="el-zoom-in-center">
 
+    <el-progress
+      v-if="loading"
+      class="ep"
+      color="var(--el-color-primary)"
+      :percentage="100"
+      :indeterminate="true"
+      :duration="1"
+      :text-inside="true"
+      :stroke-width="5"
+    />
+
+      <transition name="el-zoom-in-center">
         <div class="cards" v-if="data">
           <div class="cardtitle">游戏信息</div>
           <div class="cardcontent" :style="{backgroundColor: textColorBC}">
@@ -375,12 +390,11 @@ const textColorBC = computed(() => {
       transition: all 0.5s ease-in-out;
   }
   .searchbar:hover {
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+  box-shadow: var(--sh-b);
   }
 .cards {
   width: 800px;
-  /* height: 200px; */
-  border: solid 1px #dcdfe6;  
+  border: solid 1px var(--el-br-w);  
   border-radius: 4px;
   margin-top: 10px;
   overflow: hidden;
@@ -390,13 +404,13 @@ const textColorBC = computed(() => {
 }
 
 .cards:hover {
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+  box-shadow: var(--sh-b);
 }
 
   .cardtitle {
     padding: 10px;
     height: 44px;
-    border-bottom: solid 1px #dcdfe6;  
+    border-bottom: solid 1px var(--el-br-w);  
   }
   .cardcontent {
     display: flex;
@@ -457,6 +471,11 @@ const textColorBC = computed(() => {
     padding-left: 10px;
     padding-right: 10px;
 }
+.ep{
+  margin-top: 10px;
+  width: 800px;
+}
+
   @media screen and (max-width: 800px) {
     .global {
       width: 100%;
@@ -471,6 +490,9 @@ const textColorBC = computed(() => {
     .cardcontent {
     display: flex;
     flex-direction: column;
+  }
+  .ep {
+    width: 100%;
   }
 
   }
