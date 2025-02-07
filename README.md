@@ -7,3 +7,5 @@
 pnpm install
 
 pnpm dev
+
+使用nuxt重构
