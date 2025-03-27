@@ -147,7 +147,11 @@ onMounted(async() =>{
       text: data.value?.hour_struct ? '' : '暂无数据',
       x: data.value?.hour_struct ? '' : 'center',
       y: data.value?.hour_struct ? '' : 'center',
-    },
+      textStyle: {
+        color: '#606266',
+        fontWeight: 'normal',
+      },
+     },
     tooltip: {},
     xAxis: {
       type: 'category',
@@ -181,7 +185,11 @@ onMounted(async() =>{
       text: data.value?.day_struct ? '' : '暂无数据',
       x: data.value?.day_struct ? '' : 'center',
       y: data.value?.day_struct ? '' : 'center',
-    },
+      textStyle: {
+        color: '#606266',
+        fontWeight: 'normal',
+      },
+     },
     tooltip: {},
     xAxis: {
       type: 'category',
@@ -214,7 +222,11 @@ onMounted(async() =>{
       text: data.value?.month_struct ? '' : '暂无数据',
       x: data.value?.month_struct ? '' : 'center',
       y: data.value?.month_struct ? '' : 'center',
-    },
+      textStyle: {
+        color: '#606266',
+        fontWeight: 'normal',
+      },
+     },
     tooltip: {},
     xAxis: {
       type: 'category',

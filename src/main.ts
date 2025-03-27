@@ -38,12 +38,37 @@ echarts.use([
 
 
 const routes = [
-    {path: '/', name: 'Sail', component:  () => import('./components/HomePage.vue'), meta:{title: 'Sail'}},
-    {path:'/motd', name: 'MOTD' ,component:  () => import('./components/MinecraftMotdPage.vue'), meta:{title: 'Minecraft MOTD查询'}},
-    {path: '/analysis', name: 'Echarts', component: () => import('./components/Analysis.vue'), meta:{title: '调用统计'}},
-    { path: '/:pathMatch(.*)*', name: 'NotFound', component: import('./components/HomePage.vue'), meta:{title: '404 你又回来了'} },
-
-  ]
+  {
+    path: "/",
+    name: "Sail",
+    component: () => import("./components/HomePage.vue"),
+    meta: { title: "Sail" },
+  },
+  {
+    path: "/motd",
+    name: "MOTD",
+    component: () => import("./components/MinecraftMotdPage.vue"),
+    meta: { title: "Minecraft MOTD查询" },
+  },
+  {
+    path: "/analysis",
+    name: "Echarts",
+    component: () => import("./components/Analysis.vue"),
+    meta: { title: "调用统计" },
+  },
+  {
+    path: "/clipboard",
+    name: "Clipboard",
+    component: () => import("./components/Clipboard.vue"),
+    meta: { title: "剪切板" },
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: import("./components/HomePage.vue"),
+    meta: { title: "404 你又回来了" },
+  },
+];
 
 const router = createRouter({
     history: createWebHistory(),
