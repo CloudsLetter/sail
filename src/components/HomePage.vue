@@ -15,8 +15,10 @@ document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`)
         </div>
         <div style="width: 90%; text-align: center;">可用服务:</div>
         <router-link to="/motd" style="color:var(--el-color-primary)">Minecraft MOTD</router-link>
-        <router-link to="/analysis" style="color:var(--el-color-primary)">调用统计</router-link>
+        <router-link to="/sensitive" style="color:var(--el-color-primary)">敏感词检测</router-link>
+        <router-link to="/img_compress" style="color:var(--el-color-primary)">图片压缩</router-link>
         <router-link to="/clipboard" style="color:var(--el-color-primary)">剪切板</router-link>
+        <router-link to="/analysis" style="color:var(--el-color-primary)">调用统计</router-link>
 
         <div>博客: https://blog.cloudyi.xyz</div>
         </div>
@@ -46,7 +48,7 @@ document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`)
     height: 400px;
     border-radius: 4px;
     border: solid 1px var(--el-br-w);
-    transition: box-shadow 0.5s ease-in-out;
+ transition: box-shadow 0.5s ease-in-out;
 }
 .cards:hover{
         box-shadow: var(--sh-b);

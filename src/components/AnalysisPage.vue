@@ -119,7 +119,7 @@ onMounted(async() =>{
     tooltip: {},
     xAxis: {
       type: 'category',
-      data: data.value?.minute_struct ? data.value?.minute_struct.map((item) => `${item.hour + 8} 时 ${item.minute} 分`) : [],
+      data: data.value?.minute_struct ? data.value?.minute_struct.map((item: { hour: number; minute: any; }) => `${item.hour + 8} 时 ${item.minute} 分`) : [],
     },
     yAxis: {
       type: 'value',
@@ -131,7 +131,7 @@ onMounted(async() =>{
       {
         name: '调用次数',
         type: 'line',
-        data: data.value?.minute_struct ? data.value?.minute_struct.map((item) => item.count) : [],
+        data: data.value?.minute_struct ? data.value?.minute_struct.map((item: { count: any; }) => item.count) : [],
         smooth: true,
         areaStyle: {
           color: '#58aaff',
@@ -156,7 +156,7 @@ onMounted(async() =>{
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: data.value?.hour_struct ? data.value?.hour_struct.map((item) => `${item.day} 日 ${item.hour + 8} 时`) : [],
+      data: data.value?.hour_struct ? data.value?.hour_struct.map((item: { day: any; hour: number; }) => `${item.day} 日 ${item.hour + 8} 时`) : [],
     },
     yAxis: {
       type: 'value',
@@ -168,7 +168,7 @@ onMounted(async() =>{
       {
         name: '调用次数',
         type: 'line',
-        data: data.value?.hour_struct ? data.value?.hour_struct.map((item) => item.count) : [],
+        data: data.value?.hour_struct ? data.value?.hour_struct.map((item: { count: any; }) => item.count) : [],
         smooth: true,
         areaStyle: {
           color: '#58aaff',
@@ -193,7 +193,7 @@ onMounted(async() =>{
     tooltip: {},
     xAxis: {
       type: 'category',
-      data: data.value?.day_struct ?  data.value?.day_struct.map((item) => `${item.month} 月 ${item.day} 日`) : [],
+      data: data.value?.day_struct ?  data.value?.day_struct.map((item: { month: any; day: any; }) => `${item.month} 月 ${item.day} 日`) : [],
     },
     yAxis: {
       type: 'value',
@@ -205,7 +205,7 @@ onMounted(async() =>{
       {
         name: '调用次数',
         type: 'line',
-        data: data.value?.day_struct ? data.value?.day_struct.map((item) => item.count) : [],
+        data: data.value?.day_struct ? data.value?.day_struct.map((item: { count: any; }) => item.count) : [],
         smooth: true,
         areaStyle: {
           color: '#58aaff',
@@ -230,7 +230,7 @@ onMounted(async() =>{
     tooltip: {},
     xAxis: {
       type: 'category',
-      data:  data.value?.month_struct ? data.value?.month_struct.map((item) => `${item.year} 年 ${item.month} 月`) : [],
+      data:  data.value?.month_struct ? data.value?.month_struct.map((item: { year: any; month: any; }) => `${item.year} 年 ${item.month} 月`) : [],
     },
     yAxis: {
       type: 'value',
@@ -242,7 +242,7 @@ onMounted(async() =>{
       {
         name: '调用次数',
         type: 'line',
-        data: data.value?.month_struct ? data.value?.month_struct.map((item) => item.count) : [],
+        data: data.value?.month_struct ? data.value?.month_struct.map((item: { count: any; }) => item.count) : [],
         smooth: true,
          areaStyle: {
           color: '#58aaff',
@@ -323,6 +323,7 @@ onUnmounted(()=>{
 
     
 </div>
+<Loading v-if="data === null" />
 <DarkModeToggle />
 
 </template>

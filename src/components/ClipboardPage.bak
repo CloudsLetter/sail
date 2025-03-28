@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref } from 'vue';
 import DarkModeToggle from './DarkModeToggle.vue';
 
@@ -55,7 +55,6 @@ const warringNof = (errMsg: string) => {
     <div class="cards">
         <div class="cardtitle">剪切板</div>
         <div class="cardcontent">
-        <!-- <el-skeleton style="height: 400px; width: 100%" :rows="10" :loading="!data"> -->
                 <div style="width:100%;  padding: 10px;">
 
                 <el-input
@@ -102,7 +101,6 @@ const warringNof = (errMsg: string) => {
                 <el-button class="ep" style="width: 100%" type="primary" @click="queryNof">创建</el-button>
                 </div>
                  </div>
-        <!-- </el-skeleton> -->
         </div>
     </div>
     </div>
@@ -205,4 +203,4 @@ const warringNof = (errMsg: string) => {
   ::v-deep(.el-textarea__inner) {
   height: 580px !important;
 }
-</style>
+</style> -->

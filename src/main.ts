@@ -53,15 +53,27 @@ const routes = [
   {
     path: "/analysis",
     name: "Echarts",
-    component: () => import("./components/Analysis.vue"),
+    component: () => import("./components/AnalysisPage.vue"),
     meta: { title: "调用统计" },
   },
+  // {
+  //   path: "/clipboard",
+  //   name: "Clipboard",
+  //   component: () => import("./components/ClipboardPage.vue"),
+  //   meta: { title: "剪切板" },
+  // },
   {
-    path: "/clipboard",
-    name: "Clipboard",
-    component: () => import("./components/Clipboard.vue"),
-    meta: { title: "剪切板" },
+    path: "/sensitive",
+    name: "Sensitive",
+    component: () => import("./components/SensitivePage.vue"),
+    meta: { title: "敏感词检测" },
   },
+  // {
+  //   path: "/img_compress",
+  //   name: "ImgCompress",
+  //   component: () => import("./components/ImgCompress.vue"),
+  //   meta: { title: "图片压缩" },
+  // },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",

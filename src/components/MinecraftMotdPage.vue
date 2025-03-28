@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { Search } from '@element-plus/icons-vue'
 import DarkModeToggle from './DarkModeToggle.vue';
-
+import Loading from './Loading.vue';
 interface MotdResponse {
   edition?: string;
   mine_craft_edition?: string;
@@ -182,22 +182,12 @@ const textColorBC = computed(() => {
           </el-select>
         </template>
         <template #append>
-          <el-button @click="getData()">
+          <el-button @click="getData()" :disabled="loading">
               <el-icon color="var(--el-color-primary)" ><Search /></el-icon>
           </el-button>
         </template>
       </el-input>
 
-    <el-progress
-      v-if="loading"
-      class="ep"
-      color="var(--el-color-primary)"
-      :percentage="100"
-      :indeterminate="true"
-      :duration="1"
-      :text-inside="true"
-      :stroke-width="5"
-    />
 
       <transition name="el-zoom-in-center">
         <div class="cards" v-if="data">
@@ -372,7 +362,7 @@ const textColorBC = computed(() => {
               </el-table>
         </div>
   </div>
-
+<Loading v-if="loading" />
 <DarkModeToggle />
   
 
