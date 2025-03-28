@@ -11,7 +11,7 @@
     height: 60px;
     background-color: #2b7fff;
     display: flex;
-    position: absolute  ;
+    position: absolute;
     top: 50;
     left: 50;
     flex-direction:row;

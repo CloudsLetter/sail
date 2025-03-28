@@ -9,6 +9,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AnalysisPage: typeof import('./src/components/AnalysisPage.vue')['default']
+    ClipboardContentPage: typeof import('./src/components/ClipboardContentPage.vue')['default']
+    ClipboardPage: typeof import('./src/components/ClipboardPage.vue')['default']
     DarkModeToggle: typeof import('./src/components/DarkModeToggle.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -17,6 +19,7 @@ declare module 'vue' {
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     Header: typeof import('./src/components/Header.vue')['default']

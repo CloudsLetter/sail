@@ -56,12 +56,18 @@ const routes = [
     component: () => import("./components/AnalysisPage.vue"),
     meta: { title: "调用统计" },
   },
-  // {
-  //   path: "/clipboard",
-  //   name: "Clipboard",
-  //   component: () => import("./components/ClipboardPage.vue"),
-  //   meta: { title: "剪切板" },
-  // },
+  {
+    path: "/clipboard",
+    name: "Clipboard",
+    component: () => import("./components/ClipboardPage.vue"),
+    meta: { title: "剪切板" },
+  },
+  {
+    path: "/clipboard/:title",
+    name: "ClipboardContent",
+    component: () => import("./components/ClipboardContentPage.vue"),
+    meta: { title: "剪切板内容区域" },
+  },
   {
     path: "/sensitive",
     name: "Sensitive",

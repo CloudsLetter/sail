@@ -70,6 +70,7 @@ const getData = () => {
   }
 
 sentiveData.value = []
+sensitive_words.value = null;
   loading.value = true;
   queryNof();
   axios.post(`https://satellite.cloudyi.xyz/api/v1/sensitive`,{
@@ -86,10 +87,14 @@ sentiveData.value = []
     loading.value = false;
     let tmpsebnsitive = `<center><span style="color: var(--el-color-primary)">无敏感词</span></center>`;
     if(jsonObj.status_code !== 4){
-    tmpsebnsitive = content.value === null ? "" : `${content.value}`;
+    tmpsebnsitive = content.value === null ? "" : `${content.value}`; 
     Object.keys(jsonObj.sensitive_words).forEach((key) => {
+      if(key === ""){
+      sentiveData.value.push({ c: "符号位(~`!@#$%^&*()-_=+[{}]:;',./，。、￥)", t: jsonObj.sensitive_words[key] });
+      }else{
       sentiveData.value.push({ c: key, t: jsonObj.sensitive_words[key] });
       tmpsebnsitive = tmpsebnsitive.replace(new RegExp(key, "g"), `<span style="color: var(--el-color-red);">${key}</span>`);
+      }
     })
     }
     sensitive_words.value = tmpsebnsitive;
