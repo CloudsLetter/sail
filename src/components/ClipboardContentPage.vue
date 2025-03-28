@@ -50,7 +50,7 @@ const textColor = computed(() => {
 const queryClipboard = async () => {
     queryNof();
     loading.value = true;
-   axios.get(`http://127.0.0.1:8080/api/v1/clipboard/query?title=${route.params.title}&password=${password.value}`,{
+   axios.get(`https://satellite.cloudyi.xyz/api/v1/clipboard/query?title=${route.params.title}&password=${password.value}`,{
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

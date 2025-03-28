@@ -56,7 +56,7 @@ const pushClipboard = async () => {
     queryNof();
     loading.value = true;
    let titles = title.value ? title.value : generateRandomString(6);
-   axios.post('http://127.0.0.1:8080/api/v1/clipboard/add', {
+   axios.post('https://satellite.cloudyi.xyz/api/v1/clipboard/add', {
     title: titles,
     content: content.value ? content.value : "",
     syntax_highlighting: syntaxHighlighting.value ? syntaxHighlighting.value : 'text',
