@@ -72,7 +72,7 @@ const getData = () => {
 sentiveData.value = []
   loading.value = true;
   queryNof();
-  axios.post(`http://localhost:8080/api/v1/sensitive`,{
+  axios.post(`http://satellite.cloudyi.xyz/api/v1/sensitive`,{
     keywords: content.value,
   },{
     headers: {
