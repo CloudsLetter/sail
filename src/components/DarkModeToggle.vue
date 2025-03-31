@@ -15,10 +15,12 @@ const handleToggle = () => {
   isFlipped.value = !isFlipped.value
   toggleDark()
 }
+
+
 </script>
 
 <template>
-  <div class="toggle" @click="handleToggle" :class="{ flipped: isFlipped }">
+  <div draggable="true"  class="toggle" @click="handleToggle" :class="{ flipped: isFlipped }">
     <el-icon size="30px" style="color:#fff">
       <component :is="isDark ? Sunny : Moon" />
     </el-icon>

@@ -3,8 +3,9 @@ import { computed, ref } from 'vue';
 import DarkModeToggle from './DarkModeToggle.vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 import Loading from './Loading.vue';
-
+const router = useRouter(); 
 const content = ref(null);
 const syntaxHighlighting = ref(null);
 const expire = ref(null);
@@ -12,6 +13,16 @@ const snaphat = ref(null);
 const password = ref("");
 const loading = ref(false);
 const route = useRoute();
+const needPasswowrd = ref(false)
+const nothas = ref(false)
+const warringNof = (msg: string) => {
+  ElNotification({
+    title: '警告',
+    message: msg,
+    type: 'warning',
+    duration: 2000
+  });
+}
 
 const queryNof = () => {
   ElNotification({
@@ -26,6 +37,16 @@ const successNof = () => {
   ElNotification({
     title: '成功',
     message: '查询成功',
+    type: 'success',
+    duration: 2000
+
+  });
+}
+
+const successNofd = () => {
+  ElNotification({
+    title: '成功',
+    message: '删除成功',
     type: 'success',
     duration: 2000
 
@@ -47,6 +68,25 @@ const textColor = computed(() => {
 });
 
 
+
+const removeClipboard = async () => {
+    queryNof();
+    loading.value = true;
+   axios.delete(`https://satellite.cloudyi.xyz/api/v1/clipboard/remove?title=${route.params.title}&password=${password.value}`,{
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  }).then((_) => {
+    successNofd();
+        router.push({
+        name: 'Clipboard',
+      });
+  }).catch((_) => {
+          errorNof('删除失败，请稍后再试');
+  })
+}
+
 const queryClipboard = async () => {
     queryNof();
     loading.value = true;
@@ -56,29 +96,69 @@ const queryClipboard = async () => {
       'Content-Type': 'application/json',
     },
   }).then((res) => {
+    needPasswowrd.value = false;
     content.value = res.data.content;
     syntaxHighlighting.value = res.data.syntax_highlighting;
     expire.value = res.data.expire;
-    snaphat.value = res.data.snaphat;
+    snaphat.value = res.data.snapchat;
     successNof();
+    setTimeout(() => {
+      if(snaphat.value){
+        if(res.data.read > 1){
+          warringNof('阅后即焚功能开启，内容将会在查看后删除');
+        }else{
+          warringNof('阅后即焚功能开启，内容将会在下次查看后删除');
+        }
+      }
+    }, 2000);
   }).catch((error) => {
     if(error.response.status == 404){
+        nothas.value = true;
       errorNof('剪切板不存在或已过期');
-    }else{
-    errorNof('查询失败，请稍后再试');
+    }else if(error.response.status == 403){
+      if(needPasswowrd.value){
+        errorNof('密码错误，请重新输入');
+      }else{
+        errorNof('剪切板需要密码，请输入密码后重试');
+      }
+            needPasswowrd.value = true;
 
+    }else{
+          errorNof('查询失败，请稍后再试');
     }
   }).finally(() => {
     loading.value = false;
   });
 }
 queryClipboard();
+document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`);
 </script>
 
 <template>
-          <transition name="el-zoom-in-center">
-    <div class="global" v-if="content !== null">
-                <el-input
+              <div :class="content !== null ? 'global' : 'globals'">
+            <transition name="el-zoom-in-center">
+                <div style="display: flex; justify-content: center; align-items: center;flex-direction: column;" v-if="loading && !needPasswowrd && !nothas && !content">
+                                我思故我在
+                  </div>
+            </transition>
+                <transition name="el-zoom-in-center">
+                  <div style="display: flex; justify-content: center; align-items: center;flex-direction: column;" v-if="content === null && !loading">
+                  <div>荒无人烟</div>
+                  <el-button  style="width: 200px; margin-top: 10px;" type="primary" @click="router.push({name: 'Clipboard'});">返回</el-button>
+                </div>
+
+               </transition>
+                <transition name="el-zoom-in-center">
+
+                  <div style="display: flex; justify-content: center; align-items: center;flex-direction: column;" v-if="needPasswowrd">
+                  <el-input v-model="password" style="width: 200px" placeholder="请输入访问密码" />
+                  <el-button  style="width: 200px; margin-top: 10px;" type="primary" @click="queryClipboard()">验证</el-button>
+                </div>
+               </transition>
+                <transition name="el-zoom-in-center">
+
+                <div v-if="content !== null">
+                   <el-input
                       v-model="content"
                       style="width: 100%"
                       type="textarea"
@@ -118,15 +198,16 @@ queryClipboard();
                         <div :style="{color: textColor}">{{snaphat ? '是' : '否'}}</div>
                     </div>
 
+
+
                   </div>
+                                      <el-button style="width: 100%;border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; border-top-left-radius: 0px; border-top-right-radius: 0px;" type="primary" @click="removeClipboard()">删除剪切板</el-button>
+
                 </div>
+                </div>
+                               </transition>
+
         </div>
-</transition>
-          <transition name="el-zoom-in-center">
-            <div class="global" v-if="content === null">
-                <center>欢迎来到荒原 || 加载中...</center>
-            </div>
-            </transition>
         <Loading v-if="loading" />
     <DarkModeToggle />
 
@@ -137,6 +218,15 @@ queryClipboard();
     padding: 10px;
     width: 800px;
     margin: 0 auto;
+  }
+
+  .globals{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .searchbar {
     width: 100%;
@@ -213,6 +303,16 @@ queryClipboard();
     .global {
       width: 100%;
     }
+
+    .globals{
+    width: 100%;
+    height: var(--vh);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
     .searchbar {
       width: 100%;
     }

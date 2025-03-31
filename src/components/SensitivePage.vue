@@ -89,9 +89,7 @@ sensitive_words.value = null;
     if(jsonObj.status_code !== 4){
     tmpsebnsitive = content.value === null ? "" : `${content.value}`; 
     Object.keys(jsonObj.sensitive_words).forEach((key) => {
-      if(key === ""){
-      sentiveData.value.push({ c: "符号位(~`!@#$%^&*()-_=+[{}]:;',./，。、￥)", t: jsonObj.sensitive_words[key] });
-      }else{
+      if(key !== ""){
       sentiveData.value.push({ c: key, t: jsonObj.sensitive_words[key] });
       tmpsebnsitive = tmpsebnsitive.replace(new RegExp(key, "g"), `<span style="color: var(--el-color-red);">${key}</span>`);
       }

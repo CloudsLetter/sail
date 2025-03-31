@@ -13,6 +13,16 @@ const expire = ref(null);
 const snaphat = ref(null);
 const password = ref(null);
 const loading = ref(false);
+
+const warringNof = (msg: string) => {
+  ElNotification({
+    title: '警告',
+    message: msg,
+    type: 'warning',
+    duration: 2000
+  });
+}
+
 const queryNof = () => {
   ElNotification({
     title: '创建中',
@@ -53,6 +63,10 @@ function generateRandomString(length = 6) {
 }
 
 const pushClipboard = async () => {
+    if (!content.value) {
+      warringNof('剪切板内容不能为空');
+      return;
+    }
     queryNof();
     loading.value = true;
    let titles = title.value ? title.value : generateRandomString(6);
@@ -60,9 +74,9 @@ const pushClipboard = async () => {
     title: titles,
     content: content.value ? content.value : "",
     syntax_highlighting: syntaxHighlighting.value ? syntaxHighlighting.value : 'text',
-    passord: password.value ? password.value : "",
-    expire: expire.value ? expire.value : 1,
-    snaphat: snaphat.value ? snaphat.value : false,
+    password: password.value ? password.value : "",
+    expire: expire.value ? parseInt(expire.value) : 1,
+    snapchat: snaphat.value ? snaphat.value : false,
   },{
     headers: {
       'Accept': 'application/json',
@@ -130,55 +144,55 @@ const pushClipboard = async () => {
                 <div>过期时间</div>
                       <el-select v-model="expire" placeholder="选择时间(默认为 1 天)" style="width: 40%">
                         <el-option
-                          key=1
+                          key="1"
                           label="1 天"
-                          value=1
+                          value="1"
                         />
 
                         <el-option
-                          key=3
+                          key="3"
                           label="3 天"
                           value="3"
                         />
 
                         <el-option
-                          key=7
+                          key="7"
                           label="7 天"
-                          value=7
+                          value="7"
                         />
 
                         <el-option
-                          key=14
+                          key="14"
                           label="14 天"
-                          value=14
+                          value="14"
                         />
 
                         <el-option
-                          key=30
+                          key="30"
                           label="30 天"
-                          value=30
+                          value="30"
                         />
 
                       </el-select>
                     </div>
               <div style="display: flex; flex-direction: row;  justify-content: space-between;">
                 <div>语法高亮</div>
-                      <el-select v-model="syntaxHighlighting" placeholder="选择语言(默认为Text)" style="width: 40%">
+                      <el-select v-model="syntaxHighlighting" placeholder="选择语言(默认为text)" style="width: 40%">
                         <el-option
                           key="text"
-                          label="Text"
+                          label="text"
                           value="text"
                         />
 
                         <el-option
                           key="go"
-                          label="Go"
+                          label="go"
                           value="go"
                         />
 
                         <el-option
                           key="cpp"
-                          label="Cpp"
+                          label="cpp"
                           value="cpp"
                         />
 
@@ -194,7 +208,7 @@ const pushClipboard = async () => {
                     </div>
                   </div>
 
-                    <el-button style="width: 100%;border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; border-top-left-radius: 0px; border-top-right-radius: 0px;" type="primary" @click="pushClipboard">创建剪切板</el-button>
+                    <el-button style="width: 100%;border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; border-top-left-radius: 0px; border-top-right-radius: 0px;" type="primary" @click="pushClipboard">删除剪切板</el-button>
                 </div>
         </div>
         <Loading v-if="loading" />
