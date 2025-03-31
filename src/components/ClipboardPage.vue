@@ -208,7 +208,7 @@ const pushClipboard = async () => {
                     </div>
                   </div>
 
-                    <el-button style="width: 100%;border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; border-top-left-radius: 0px; border-top-right-radius: 0px;" type="primary" @click="pushClipboard">删除剪切板</el-button>
+                    <el-button style="width: 100%;border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; border-top-left-radius: 0px; border-top-right-radius: 0px;" type="primary" @click="pushClipboard">创建剪切板</el-button>
                 </div>
         </div>
         <Loading v-if="loading" />
