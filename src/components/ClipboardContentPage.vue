@@ -90,6 +90,12 @@ const removeClipboard = async () => {
 const queryClipboard = async () => {
     queryNof();
     loading.value = true;
+    if(!content.value){
+    content.value = null;
+    syntaxHighlighting.value = null;
+    expire.value = null;
+    snaphat.value = null;
+    }
    axios.get(`https://satellite.cloudyi.xyz/api/v1/clipboard/query?title=${route.params.title}&password=${password.value}`,{
     headers: {
       'Accept': 'application/json',
